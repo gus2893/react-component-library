@@ -1,6 +1,6 @@
 {
   "name": "@gus2893/react-components",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Accessible React component library with a simple ThemeProvider/createTheme theme, for sharing across enterprise apps.",
   "license": "MIT",
   "author": "gus2893",
