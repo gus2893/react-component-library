@@ -20,6 +20,11 @@ describe('public API', () => {
       'Switch',
       'TextField',
       'Tooltip',
+      'ThemeProvider',
+      'createTheme',
+      'darkTheme',
+      'lightTheme',
+      'useTheme',
       'cx',
     ];
     expect(Object.keys(lib).sort()).toEqual(expected.sort());

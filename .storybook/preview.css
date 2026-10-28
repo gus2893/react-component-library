@@ -1,13 +1,11 @@
 html,
-body {
-  background: var(--rcl-color-bg);
-  color: var(--rcl-color-text);
-  font-family: var(--rcl-font-family);
+body,
+.rcl-sb-theme-root {
+  background: var(--rcl-bg);
+  color: var(--rcl-text);
+  font-family: var(--rcl-font);
 }
 
 .rcl-sb-theme-root {
   padding: 1rem;
-  background: var(--rcl-color-bg);
-  color: var(--rcl-color-text);
-  font-family: var(--rcl-font-family);
 }

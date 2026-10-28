@@ -1,8 +1,6 @@
 import { forwardRef, type ReactNode, type SelectHTMLAttributes } from 'react';
 import { cx } from '../../utils/cx.js';
 import { useField } from '../../utils/useField.js';
-import '../../styles/field.css';
-import './Select.css';
 
 export type SelectSize = 'sm' | 'md' | 'lg';
 

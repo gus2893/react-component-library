@@ -3,7 +3,7 @@
 Accessible, themeable React component library shared across the organisation's apps.
 
 - 12 components built on native elements: **Button, TextField, Select, Checkbox, Switch, Card, Badge, Alert, Modal/Dialog, Tooltip, Spinner, Stack**
-- Styled with CSS custom-property **design tokens**; light / dark / system themes via `data-theme`
+- Simple theming: `ThemeProvider` + `createTheme` over ~15 values (or plain CSS variables); light and dark built in
 - All class names prefixed with `rcl-`, so styles never collide with host apps
 - ESM + CommonJS builds, TypeScript declarations, source maps, tree-shakeable
 - No runtime dependencies beyond React
@@ -53,36 +53,51 @@ CommonJS works too: `const { Button } = require('@gus2893/react-components');`
 The ESM and CJS bundles start with a `'use client'` directive, so the components can be used
 from React Server Component frameworks (e.g. Next.js App Router).
 
-## Theming and design tokens
+## Theming
 
-Select a theme with `data-theme` (usually on `<html>`):
+The look is driven by one small theme object: nine colours (`primary`, `danger`, `success`,
+`warning`, `background`, `surface`, `text`, `textMuted`, `border`), a `radius`, a `spacing`
+unit, a `font` (`family`, `size`), a `shadow` and a `focus` colour. Hover, active and tinted
+shades are derived from these in CSS, so there is nothing else to configure.
 
-```html
-<html data-theme="dark">
-  <!-- "light" (default) | "dark" | "system" -->
-</html>
+**No setup needed:** the stylesheet's defaults equal `lightTheme`. For dark mode without
+JavaScript, set `data-theme="dark"` (or `"system"`) on `<html>`.
+
+**ThemeProvider + createTheme:**
+
+```tsx
+import { ThemeProvider, createTheme, darkTheme, useTheme } from '@gus2893/react-components';
+
+const brand = createTheme({ colors: { primary: '#7c3aed' }, radius: '12px' }); // merged onto lightTheme
+
+<ThemeProvider theme={brand}>
+  <App />
+</ThemeProvider>;
 ```
 
-Every visual value is a CSS custom property prefixed with `--rcl-`. Override tokens to match
-your brand:
+- `createTheme(overrides, base = lightTheme)` deep-merges a partial theme; `lightTheme` and
+  `darkTheme` are exported.
+- `<ThemeProvider>` writes the theme as `--rcl-*` CSS variables on a wrapper `<div>`; add
+  `global` to write them on `<html>` instead. Providers nest, and an inner `theme` may be
+  partial (`theme={{ colors: { primary: 'teal' } }}`): it is merged onto the outer theme.
+- `useTheme()` returns the active `Theme` (`lightTheme` outside any provider).
+- `Modal` keeps the theme of its provider even though it renders in a portal.
+
+**Plain CSS alternative:** override the same variables yourself, no provider required:
 
 ```css
 :root {
-  --rcl-color-primary: #7c3aed;
-  --rcl-color-primary-hover: #6d28d9;
-  --rcl-radius-md: 2px;
-  --rcl-font-family: 'Inter', system-ui, sans-serif;
+  --rcl-primary: #7c3aed;
+  --rcl-radius: 12px;
+  --rcl-font: 'Inter', system-ui, sans-serif;
 }
 ```
 
-Token groups: colour (`--rcl-color-*`), spacing (`--rcl-space-0` … `--rcl-space-12`),
-radius (`--rcl-radius-*`), typography (`--rcl-font-*`, `--rcl-line-height-*`), focus ring
-(`--rcl-focus-ring-*`), elevation (`--rcl-shadow-*`) and motion (`--rcl-duration-*`,
-`--rcl-easing`). See [`src/styles/tokens.css`](src/styles/tokens.css) and the Storybook
-Introduction page for the full list.
+Variables: `--rcl-primary`, `--rcl-danger`, `--rcl-success`, `--rcl-warning`, `--rcl-bg`,
+`--rcl-surface`, `--rcl-text`, `--rcl-text-muted`, `--rcl-border`, `--rcl-radius`,
+`--rcl-spacing`, `--rcl-font`, `--rcl-font-size`, `--rcl-shadow`, `--rcl-focus`.
 
-> `Modal` renders through a portal into `document.body`; set `data-theme` on `<html>`, or pass
-> a themed element as its `container` prop.
+Text on solid `primary`/`danger` fills uses `background`, so keep those colours contrasting.
 
 ## Development
 
@@ -113,8 +128,9 @@ npm run storybook
 
 ```
 src/
-  components/<Name>/   Name.tsx, Name.css, Name.stories.tsx, Name.test.tsx, index.ts
-  styles/              tokens.css (themes), base.css, field.css
+  components/<Name>/   Name.tsx, Name.stories.tsx, Name.test.tsx, index.ts
+  styles/              theme.css (default variables), components.css (all component styles)
+  theme/               Theme type, lightTheme/darkTheme, createTheme, ThemeProvider, useTheme
   utils/               cx, mergeRefs, useField
   docs/Introduction.mdx
   index.ts             public API

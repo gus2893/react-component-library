@@ -1,6 +1,5 @@
 import { forwardRef, type HTMLAttributes, type ReactNode } from 'react';
 import { cx } from '../../utils/cx.js';
-import './Alert.css';
 
 export type AlertVariant = 'info' | 'success' | 'warning' | 'error';
 

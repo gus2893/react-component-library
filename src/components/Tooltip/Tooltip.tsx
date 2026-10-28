@@ -12,7 +12,6 @@ import {
   type ReactNode,
 } from 'react';
 import { cx } from '../../utils/cx.js';
-import './Tooltip.css';
 
 export type TooltipPlacement = 'top' | 'bottom' | 'left' | 'right';
 

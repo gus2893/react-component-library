@@ -1,24 +1,26 @@
 import type { Decorator, Preview } from '@storybook/react-vite';
+import { darkTheme, lightTheme, ThemeProvider } from '../src/index.js';
 
-import '../src/styles/tokens.css';
-import '../src/styles/base.css';
+import '../src/styles/theme.css';
+import '../src/styles/components.css';
 import './preview.css';
 
-type Theme = 'light' | 'dark';
+const themes = { light: lightTheme, dark: darkTheme };
 
 /**
- * Applies the selected theme. `data-theme` is set on <html> (so portalled content such
- * as Modal is themed too) and on a wrapper (so each story on a Docs page is themed).
+ * Wraps every story in a ThemeProvider. Its wrapper paints the theme background, so each
+ * story on a Docs page is themed; Modal re-applies the provider's theme inside its portal.
+ * `data-theme` on <html> themes the rest of the canvas.
  */
 const withTheme: Decorator = (Story, context) => {
-  const theme = (context.globals.theme as Theme | undefined) ?? 'light';
+  const name = (context.globals.theme as keyof typeof themes | undefined) ?? 'light';
   if (typeof document !== 'undefined') {
-    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-theme', name);
   }
   return (
-    <div data-theme={theme} className="rcl-sb-theme-root">
+    <ThemeProvider theme={themes[name]} className="rcl-sb-theme-root">
       <Story />
-    </div>
+    </ThemeProvider>
   );
 };
 
@@ -27,7 +29,7 @@ const preview: Preview = {
   decorators: [withTheme],
   globalTypes: {
     theme: {
-      description: 'Colour theme (sets data-theme)',
+      description: 'Colour theme (ThemeProvider)',
       toolbar: {
         title: 'Theme',
         icon: 'mirror',

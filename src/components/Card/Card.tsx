@@ -1,6 +1,5 @@
 import { forwardRef, type HTMLAttributes } from 'react';
 import { cx } from '../../utils/cx.js';
-import './Card.css';
 
 export type CardVariant = 'outlined' | 'elevated' | 'filled';
 export type CardPadding = 'none' | 'sm' | 'md' | 'lg';

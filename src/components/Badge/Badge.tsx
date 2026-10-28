@@ -1,6 +1,5 @@
 import { forwardRef, type HTMLAttributes } from 'react';
 import { cx } from '../../utils/cx.js';
-import './Badge.css';
 
 export type BadgeVariant = 'neutral' | 'info' | 'success' | 'warning' | 'danger';
 export type BadgeSize = 'sm' | 'md';

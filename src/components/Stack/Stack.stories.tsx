@@ -4,11 +4,11 @@ import { Stack } from './Stack.js';
 const Box = ({ label }: { label: string }) => (
   <div
     style={{
-      padding: 'var(--rcl-space-3) var(--rcl-space-4)',
-      borderRadius: 'var(--rcl-radius-md)',
-      background: 'var(--rcl-color-primary-subtle)',
-      color: 'var(--rcl-color-text)',
-      fontFamily: 'var(--rcl-font-family)',
+      padding: 'calc(var(--rcl-spacing) * 3) calc(var(--rcl-spacing) * 4)',
+      borderRadius: 'var(--rcl-radius)',
+      background: 'color-mix(in srgb, var(--rcl-primary) 12%, var(--rcl-surface))',
+      color: 'var(--rcl-text)',
+      fontFamily: 'var(--rcl-font)',
     }}
   >
     {label}

@@ -1,0 +1,35 @@
+/*
+ * Default theme: the values of `lightTheme` (first argument of light-dark()), so the
+ * stylesheet works without a ThemeProvider. data-theme="dark" switches to the `darkTheme`
+ * values (second argument); data-theme="system" follows the OS. A ThemeProvider, or your
+ * own CSS, overrides these 15 variables.
+ */
+:root,
+[data-theme='light'] {
+  color-scheme: light;
+  --rcl-primary: light-dark(#1d4ed8, #6b9bff);
+  --rcl-danger: light-dark(#c81e1e, #f87171);
+  --rcl-success: light-dark(#047857, #4ade80);
+  --rcl-warning: light-dark(#92400e, #facc15);
+  --rcl-bg: light-dark(#ffffff, #0b1220);
+  --rcl-surface: light-dark(#ffffff, #131c31);
+  --rcl-text: light-dark(#101828, #f2f4f7);
+  --rcl-text-muted: light-dark(#475467, #a9b4c8);
+  --rcl-border: light-dark(#d0d5dd, #2e3a55);
+  --rcl-radius: 6px;
+  --rcl-spacing: 0.25rem;
+  --rcl-font: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --rcl-font-size: 1rem;
+  --rcl-shadow:
+    0 12px 24px -4px light-dark(rgb(16 24 40 / 0.16), rgb(0 0 0 / 0.6)),
+    0 4px 8px -2px light-dark(rgb(16 24 40 / 0.08), rgb(0 0 0 / 0.3));
+  --rcl-focus: light-dark(#2563eb, #8fb3ff);
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+[data-theme='system'] {
+  color-scheme: light dark;
+}

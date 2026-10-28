@@ -1,7 +1,7 @@
 {
   "name": "@gus2893/react-components",
   "version": "0.1.0",
-  "description": "Accessible, themeable React component library built on CSS design tokens, for sharing across enterprise apps.",
+  "description": "Accessible React component library with a simple ThemeProvider/createTheme theme, for sharing across enterprise apps.",
   "license": "MIT",
   "author": "gus2893",
   "repository": "github:gus2893/react-component-library",

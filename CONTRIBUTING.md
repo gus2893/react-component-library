@@ -37,23 +37,24 @@ npm run storybook
 
 Create `src/components/<Name>/` with:
 
-| File               | Purpose                                                                                      |
-| ------------------ | -------------------------------------------------------------------------------------------- |
-| `Name.tsx`         | Component. Extend native element props, `forwardRef` where sensible, set `displayName`.      |
-| `Name.css`         | Styles. Prefix every class with `rcl-` and use `--rcl-*` tokens only, no hard-coded colours. |
-| `Name.stories.tsx` | Storybook stories with `args` / `argTypes` (autodocs are on globally).                       |
-| `Name.test.tsx`    | Vitest + Testing Library tests: rendering, ARIA attributes, interactions.                    |
-| `index.ts`         | Re-exports the component and its types.                                                      |
+| File               | Purpose                                                                                 |
+| ------------------ | --------------------------------------------------------------------------------------- |
+| `Name.tsx`         | Component. Extend native element props, `forwardRef` where sensible, set `displayName`. |
+| `Name.stories.tsx` | Storybook stories with `args` / `argTypes` (autodocs are on globally).                  |
+| `Name.test.tsx`    | Vitest + Testing Library tests: rendering, ARIA attributes, interactions.               |
+| `index.ts`         | Re-exports the component and its types.                                                 |
 
-Then export it from `src/index.ts` and update `src/index.test.ts`.
+Add its styles to `src/styles/components.css` (classes prefixed `rcl-`), then export it from
+`src/index.ts` and update `src/index.test.ts`.
 
 ### Guidelines
 
 - **No runtime dependencies** beyond `react` / `react-dom`.
 - **Accessibility first**: native elements over ARIA re-implementations, visible focus using
-  `var(--rcl-focus-ring)`, label every control, verify in the Storybook a11y panel.
-- **Theming**: never hard-code colours; add a token in `src/styles/tokens.css` (with light and
-  dark values) if one is missing.
+  the shared focus-ring rule in `components.css`, label every control, verify in the Storybook a11y panel.
+- **Theming**: read only the theme variables (`--rcl-primary`, `--rcl-text`, `--rcl-spacing`,
+  ...). Derive shades with `color-mix()` and sizes with `calc(var(--rcl-spacing) * n)` rather
+  than adding new variables.
 - Use relative imports with explicit `.js` extensions (`'./Button.js'`), so emitted type
   declarations resolve under Node16/NodeNext module resolution.
 - Query tests by role and accessible name (`getByRole('button', { name: 'Save' })`).

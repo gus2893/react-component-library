@@ -1,6 +1,5 @@
-import { forwardRef, type HTMLAttributes } from 'react';
+import { forwardRef, type CSSProperties, type HTMLAttributes } from 'react';
 import { cx } from '../../utils/cx.js';
-import './Stack.css';
 
 export type StackDirection = 'row' | 'column' | 'row-reverse' | 'column-reverse';
 export type StackGap = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 8 | 10 | 12;
@@ -10,7 +9,7 @@ export type StackJustify = 'start' | 'center' | 'end' | 'between' | 'around' | '
 export interface StackProps extends HTMLAttributes<HTMLDivElement> {
   /** Main axis. */
   direction?: StackDirection;
-  /** Gap between children, mapped to the `--rcl-space-*` token scale. */
+  /** Gap between children, in multiples of the theme's spacing unit (4 = 1rem by default). */
   gap?: StackGap;
   /** Cross-axis alignment (`align-items`). */
   align?: StackAlign;
@@ -22,11 +21,27 @@ export interface StackProps extends HTMLAttributes<HTMLDivElement> {
   inline?: boolean;
 }
 
-/** Flexbox layout primitive that spaces children using design-token gaps. */
+const ALIGN = { start: 'flex-start', center: 'center', end: 'flex-end', stretch: 'stretch', baseline: 'baseline' };
+const JUSTIFY = {
+  start: 'flex-start',
+  center: 'center',
+  end: 'flex-end',
+  between: 'space-between',
+  around: 'space-around',
+  evenly: 'space-evenly',
+};
+
+/** Flexbox layout primitive that spaces children in multiples of the theme spacing unit. */
 export const Stack = forwardRef<HTMLDivElement, StackProps>(function Stack(
-  { direction = 'column', gap = 4, align, justify, wrap = false, inline = false, className, ...rest },
+  { direction = 'column', gap = 4, align, justify, wrap = false, inline = false, className, style, ...rest },
   ref,
 ) {
+  const layout = {
+    '--rcl-gap': gap,
+    flexDirection: direction,
+    alignItems: align && ALIGN[align],
+    justifyContent: justify && JUSTIFY[justify],
+  } as CSSProperties;
   return (
     <div
       ref={ref}
@@ -40,6 +55,7 @@ export const Stack = forwardRef<HTMLDivElement, StackProps>(function Stack(
         inline && 'rcl-stack--inline',
         className,
       )}
+      style={{ ...layout, ...style }}
       {...rest}
     />
   );

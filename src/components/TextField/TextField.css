@@ -1,7 +1,0 @@
-.rcl-text-field .rcl-field__control[type='search']::-webkit-search-cancel-button {
-  cursor: pointer;
-}
-
-.rcl-text-field .rcl-field__control[readonly] {
-  background: var(--rcl-color-bg-subtle);
-}

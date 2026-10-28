@@ -5,10 +5,10 @@ import { Meta } from '@storybook/addon-docs/blocks';
 # @gus2893/react-components
 
 Accessible, themeable React components for every app in the organisation. Components are
-built on native elements, styled with **CSS custom-property design tokens**, and every class
+built on native elements, styled from a **small theme** (about 15 values), and every class
 name is prefixed with `rcl-` so library styles never collide with host-app styles.
 
-Use the **Theme** toolbar button above to switch between the light and dark themes.
+Use the **Theme** toolbar button above to switch between `lightTheme` and `darkTheme` (applied with `ThemeProvider`).
 
 ## Installation
 
@@ -41,45 +41,51 @@ tree-shakeable (`sideEffects` is limited to CSS).
 
 ## Theming
 
-Themes are selected with a `data-theme` attribute, usually on `<html>`:
+The look is driven by one small theme object: nine colours (`primary`, `danger`, `success`,
+`warning`, `background`, `surface`, `text`, `textMuted`, `border`), a `radius`, a `spacing`
+unit, a `font` (`family`, `size`), a `shadow` and a `focus` colour. Hover, active and tinted
+shades are derived from these in CSS, so there is nothing else to configure.
 
-| Value      | Behaviour                             |
-| ---------- | ------------------------------------- |
-| _(none)_   | Light theme (default)                 |
-| `"light"`  | Light theme                           |
-| `"dark"`   | Dark theme                            |
-| `"system"` | Follows the OS `prefers-color-scheme` |
+**No setup needed:** the stylesheet's defaults equal `lightTheme`. For dark mode without
+JavaScript, set `data-theme="dark"` (or `"system"`) on `<html>`.
 
-```html
-<html data-theme="dark"></html>
+**ThemeProvider + createTheme:**
+
+```tsx
+import { ThemeProvider, createTheme, darkTheme, useTheme } from '@gus2893/react-components';
+
+const brand = createTheme({ colors: { primary: '#7c3aed' }, radius: '12px' }); // merged onto lightTheme
+
+<ThemeProvider theme={brand}>
+  <App />
+</ThemeProvider>;
 ```
 
-`data-theme` can also be set on any subtree. Note that `Modal` renders into `document.body`
-through a portal, so set the attribute on `<html>` (or pass a themed `container` to `Modal`).
+- `createTheme(overrides, base = lightTheme)` deep-merges a partial theme; `lightTheme` and
+  `darkTheme` are exported.
+- `<ThemeProvider>` writes the theme as `--rcl-*` CSS variables on a wrapper `<div>`; add
+  `global` to write them on `<html>` instead. Providers nest, and an inner `theme` may be
+  partial (`theme={{ colors: { primary: 'teal' } }}`): it is merged onto the outer theme.
+- `useTheme()` returns the active `Theme` (`lightTheme` outside any provider).
+- `Modal` keeps the theme of its provider even though it renders in a portal.
 
-## Design tokens
-
-All visual values are CSS custom properties prefixed with `--rcl-`. Override them on `:root`
-(or any ancestor) to brand the library without touching component code:
+**Plain CSS alternative:** override the same variables yourself, no provider required:
 
 ```css
 :root {
-  --rcl-color-primary: #7c3aed;
-  --rcl-color-primary-hover: #6d28d9;
-  --rcl-radius-md: 2px;
-  --rcl-font-family: 'Inter', system-ui, sans-serif;
+  --rcl-primary: #7c3aed;
+  --rcl-radius: 12px;
+  --rcl-font: 'Inter', system-ui, sans-serif;
 }
 ```
 
-| Group      | Tokens                                                                                                                                                  |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Colour     | `--rcl-color-bg`, `-surface`, `-text`, `-text-muted`, `-border`, `-primary`, `-danger`, `-success`, `-warning`, `-info` (+ `-hover`, `-subtle`, `on-*`) |
-| Spacing    | `--rcl-space-0` … `--rcl-space-12` (4px scale: 1 = 0.25rem, 4 = 1rem)                                                                                   |
-| Radius     | `--rcl-radius-sm`, `-md`, `-lg`, `-full`                                                                                                                |
-| Typography | `--rcl-font-family`, `--rcl-font-size-xs` … `-xl`, `--rcl-font-weight-*`, `--rcl-line-height-*`                                                         |
-| Focus ring | `--rcl-focus-ring-color`, `--rcl-focus-ring-width`, `--rcl-focus-ring-offset`, `--rcl-focus-ring`                                                       |
-| Elevation  | `--rcl-shadow-sm`, `--rcl-shadow-lg`                                                                                                                    |
-| Motion     | `--rcl-duration-fast`, `--rcl-duration-normal`, `--rcl-easing`                                                                                          |
+Variables: `--rcl-primary`, `--rcl-danger`, `--rcl-success`, `--rcl-warning`, `--rcl-bg`,
+`--rcl-surface`, `--rcl-text`, `--rcl-text-muted`, `--rcl-border`, `--rcl-radius`,
+`--rcl-spacing`, `--rcl-font`, `--rcl-font-size`, `--rcl-shadow`, `--rcl-focus`.
+
+Text on solid `primary`/`danger` fills uses `background`, so keep those colours contrasting.
+
+See the **Theming** stories for a live `createTheme` example with a custom brand colour.
 
 ## Accessibility
 

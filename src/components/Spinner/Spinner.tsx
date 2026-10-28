@@ -1,6 +1,5 @@
 import { forwardRef, type HTMLAttributes } from 'react';
 import { cx } from '../../utils/cx.js';
-import './Spinner.css';
 
 export type SpinnerSize = 'sm' | 'md' | 'lg';
 

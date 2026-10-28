@@ -1,7 +1,6 @@
 import { forwardRef, useEffect, useId, useRef, type InputHTMLAttributes, type ReactNode } from 'react';
 import { cx } from '../../utils/cx.js';
 import { mergeRefs } from '../../utils/mergeRefs.js';
-import './Checkbox.css';
 
 export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
   /** Visible label. Clicking it toggles the checkbox. */

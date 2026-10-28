@@ -1,5 +1,6 @@
 import {
   forwardRef,
+  useContext,
   useEffect,
   useId,
   useRef,
@@ -7,12 +8,13 @@ import {
   type KeyboardEvent,
   type MouseEvent,
   type ReactNode,
+  type CSSProperties,
   type RefObject,
 } from 'react';
 import { createPortal } from 'react-dom';
 import { cx } from '../../utils/cx.js';
+import { ThemeContext } from '../../theme/context.js';
 import { mergeRefs } from '../../utils/mergeRefs.js';
-import './Modal.css';
 
 export type ModalSize = 'sm' | 'md' | 'lg';
 
@@ -92,6 +94,8 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(function Modal(
   const bodyRef = useRef<HTMLDivElement>(null);
   const onCloseRef = useRef(onClose);
   const baseId = useId();
+  // The portal leaves the ThemeProvider's wrapper, so re-apply a scoped theme's variables.
+  const themeVars = useContext(ThemeContext).scopedVars as CSSProperties | undefined;
   const titleId = `rcl-modal-${baseId}-title`;
   const descriptionId = description ? `rcl-modal-${baseId}-description` : undefined;
 
@@ -171,7 +175,12 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(function Modal(
     // The backdrop's mouse handler is a pointer convenience; keyboard users close via Escape
     // or the close button, so no role is needed here.
     // oxlint-disable-next-line jsx-a11y/no-static-element-interactions
-    <div className="rcl-modal__overlay" data-testid="rcl-modal-overlay" onMouseDown={handleOverlayMouseDown}>
+    <div
+      className="rcl-modal__overlay"
+      data-testid="rcl-modal-overlay"
+      style={themeVars}
+      onMouseDown={handleOverlayMouseDown}
+    >
       {/* A div (not <dialog>) keeps focus/Escape handling identical across React 18/19 and test DOMs. */}
       {/* oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
       <div

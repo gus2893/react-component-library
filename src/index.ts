@@ -1,7 +1,7 @@
-// Global styles: design tokens (light / dark themes) and shared helpers.
+// All styles: the default theme variables and the component rules.
 // Bundled into dist/styles.css. Consumers import '@gus2893/react-components/styles.css'.
-import './styles/tokens.css';
-import './styles/base.css';
+import './styles/theme.css';
+import './styles/components.css';
 
 export { Alert } from './components/Alert/index.js';
 export type { AlertProps, AlertVariant } from './components/Alert/index.js';
@@ -38,6 +38,9 @@ export type { TextFieldProps, TextFieldSize } from './components/TextField/index
 
 export { Tooltip } from './components/Tooltip/index.js';
 export type { TooltipPlacement, TooltipProps } from './components/Tooltip/index.js';
+
+export { ThemeProvider, createTheme, darkTheme, lightTheme, useTheme } from './theme/index.js';
+export type { Theme, ThemeOverrides, ThemeProviderProps } from './theme/index.js';
 
 export { cx } from './utils/index.js';
 export type { ClassValue } from './utils/index.js';
