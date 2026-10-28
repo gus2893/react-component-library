@@ -1,0 +1,102 @@
+.rcl-button {
+  --rcl-button-bg: var(--rcl-color-primary);
+  --rcl-button-bg-hover: var(--rcl-color-primary-hover);
+  --rcl-button-fg: var(--rcl-color-on-primary);
+  --rcl-button-border: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--rcl-space-2);
+  height: var(--rcl-button-height, 2.5rem);
+  padding: 0 var(--rcl-button-px, var(--rcl-space-4));
+  border: 1px solid var(--rcl-button-border);
+  border-radius: var(--rcl-radius-md);
+  background: var(--rcl-button-bg);
+  color: var(--rcl-button-fg);
+  font-family: var(--rcl-font-family);
+  font-size: var(--rcl-button-font-size, var(--rcl-font-size-sm));
+  font-weight: var(--rcl-font-weight-semibold);
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--rcl-duration-fast) var(--rcl-easing),
+    border-color var(--rcl-duration-fast) var(--rcl-easing),
+    box-shadow var(--rcl-duration-fast) var(--rcl-easing);
+}
+
+.rcl-button:hover:not(:disabled) {
+  background: var(--rcl-button-bg-hover);
+}
+
+.rcl-button:focus-visible {
+  outline: none;
+  box-shadow: var(--rcl-focus-ring);
+}
+
+.rcl-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.rcl-button[data-loading] {
+  cursor: progress;
+}
+
+.rcl-button--secondary {
+  --rcl-button-bg: var(--rcl-color-surface);
+  --rcl-button-bg-hover: var(--rcl-color-bg-muted);
+  --rcl-button-fg: var(--rcl-color-text);
+  --rcl-button-border: var(--rcl-color-border-strong);
+}
+
+.rcl-button--ghost {
+  --rcl-button-bg: transparent;
+  --rcl-button-bg-hover: var(--rcl-color-bg-muted);
+  --rcl-button-fg: var(--rcl-color-primary);
+}
+
+.rcl-button--danger {
+  --rcl-button-bg: var(--rcl-color-danger);
+  --rcl-button-bg-hover: var(--rcl-color-danger-hover);
+  --rcl-button-fg: var(--rcl-color-on-danger);
+}
+
+.rcl-button--sm {
+  --rcl-button-height: 2rem;
+  --rcl-button-px: var(--rcl-space-3);
+  --rcl-button-font-size: var(--rcl-font-size-xs);
+}
+
+.rcl-button--lg {
+  --rcl-button-height: 3rem;
+  --rcl-button-px: var(--rcl-space-6);
+  --rcl-button-font-size: var(--rcl-font-size-md);
+}
+
+.rcl-button--full-width {
+  display: flex;
+  width: 100%;
+}
+
+.rcl-button__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.rcl-button__icon > svg {
+  width: 1em;
+  height: 1em;
+}
+
+.rcl-button__spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: var(--rcl-radius-full);
+  animation: rcl-spin 0.7s linear infinite;
+}

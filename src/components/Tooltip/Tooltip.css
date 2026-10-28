@@ -1,0 +1,51 @@
+.rcl-tooltip-anchor {
+  position: relative;
+  display: inline-flex;
+}
+
+.rcl-tooltip {
+  --rcl-tooltip-gap: var(--rcl-space-2);
+
+  position: absolute;
+  z-index: var(--rcl-z-tooltip);
+  box-sizing: border-box;
+  width: max-content;
+  max-width: 16rem;
+  padding: var(--rcl-space-1) var(--rcl-space-2);
+  border-radius: var(--rcl-radius-sm);
+  background: var(--rcl-color-text);
+  color: var(--rcl-color-text-inverse);
+  font-family: var(--rcl-font-family);
+  font-size: var(--rcl-font-size-xs);
+  line-height: var(--rcl-line-height-normal);
+  pointer-events: none;
+  animation: rcl-fade-in var(--rcl-duration-fast) var(--rcl-easing);
+}
+
+.rcl-tooltip[hidden] {
+  display: none;
+}
+
+.rcl-tooltip--top {
+  bottom: calc(100% + var(--rcl-tooltip-gap));
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.rcl-tooltip--bottom {
+  top: calc(100% + var(--rcl-tooltip-gap));
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.rcl-tooltip--left {
+  right: calc(100% + var(--rcl-tooltip-gap));
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.rcl-tooltip--right {
+  left: calc(100% + var(--rcl-tooltip-gap));
+  top: 50%;
+  transform: translateY(-50%);
+}

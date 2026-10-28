@@ -1,0 +1,86 @@
+.rcl-alert {
+  --rcl-alert-bg: var(--rcl-color-info-subtle);
+  --rcl-alert-accent: var(--rcl-color-info);
+
+  display: flex;
+  align-items: flex-start;
+  gap: var(--rcl-space-3);
+  box-sizing: border-box;
+  padding: var(--rcl-space-3) var(--rcl-space-4);
+  border: 1px solid color-mix(in srgb, var(--rcl-alert-accent) 35%, transparent);
+  border-inline-start: 4px solid var(--rcl-alert-accent);
+  border-radius: var(--rcl-radius-md);
+  background: var(--rcl-alert-bg);
+  color: var(--rcl-color-text);
+  font-family: var(--rcl-font-family);
+  font-size: var(--rcl-font-size-sm);
+  line-height: var(--rcl-line-height-normal);
+}
+
+.rcl-alert--success {
+  --rcl-alert-bg: var(--rcl-color-success-subtle);
+  --rcl-alert-accent: var(--rcl-color-success);
+}
+.rcl-alert--warning {
+  --rcl-alert-bg: var(--rcl-color-warning-subtle);
+  --rcl-alert-accent: var(--rcl-color-warning);
+}
+.rcl-alert--error {
+  --rcl-alert-bg: var(--rcl-color-danger-subtle);
+  --rcl-alert-accent: var(--rcl-color-danger);
+}
+
+.rcl-alert__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+  color: var(--rcl-alert-accent);
+}
+
+.rcl-alert__icon > svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.rcl-alert__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.rcl-alert__title {
+  font-weight: var(--rcl-font-weight-semibold);
+}
+
+.rcl-alert__title + .rcl-alert__message {
+  margin-top: var(--rcl-space-1);
+}
+
+.rcl-alert__dismiss {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  margin: -0.125rem -0.5rem 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--rcl-radius-sm);
+  background: transparent;
+  color: var(--rcl-color-text-muted);
+  cursor: pointer;
+}
+
+.rcl-alert__dismiss:hover {
+  background: color-mix(in srgb, var(--rcl-alert-accent) 15%, transparent);
+}
+
+.rcl-alert__dismiss:focus-visible {
+  outline: none;
+  box-shadow: var(--rcl-focus-ring);
+}
+
+.rcl-alert__dismiss > svg {
+  width: 1rem;
+  height: 1rem;
+}

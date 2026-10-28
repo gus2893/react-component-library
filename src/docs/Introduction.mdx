@@ -1,0 +1,90 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction" />
+
+# @gus2893/react-components
+
+Accessible, themeable React components for every app in the organisation. Components are
+built on native elements, styled with **CSS custom-property design tokens**, and every class
+name is prefixed with `rcl-` so library styles never collide with host-app styles.
+
+Use the **Theme** toolbar button above to switch between the light and dark themes.
+
+## Installation
+
+```bash
+npm install @gus2893/react-components
+```
+
+`react` and `react-dom` (>= 18) are **peer dependencies**; your app provides them.
+
+## Usage
+
+Import the stylesheet **once** at your app's entry point, then import components:
+
+```tsx
+import '@gus2893/react-components/styles.css';
+import { Button, TextField, Stack } from '@gus2893/react-components';
+
+export function SignIn() {
+  return (
+    <Stack gap={4}>
+      <TextField label="Email" type="email" required />
+      <Button variant="primary">Sign in</Button>
+    </Stack>
+  );
+}
+```
+
+The package ships ESM (`import`) and CommonJS (`require`) builds with TypeScript types, and is
+tree-shakeable (`sideEffects` is limited to CSS).
+
+## Theming
+
+Themes are selected with a `data-theme` attribute, usually on `<html>`:
+
+| Value      | Behaviour                             |
+| ---------- | ------------------------------------- |
+| _(none)_   | Light theme (default)                 |
+| `"light"`  | Light theme                           |
+| `"dark"`   | Dark theme                            |
+| `"system"` | Follows the OS `prefers-color-scheme` |
+
+```html
+<html data-theme="dark"></html>
+```
+
+`data-theme` can also be set on any subtree. Note that `Modal` renders into `document.body`
+through a portal, so set the attribute on `<html>` (or pass a themed `container` to `Modal`).
+
+## Design tokens
+
+All visual values are CSS custom properties prefixed with `--rcl-`. Override them on `:root`
+(or any ancestor) to brand the library without touching component code:
+
+```css
+:root {
+  --rcl-color-primary: #7c3aed;
+  --rcl-color-primary-hover: #6d28d9;
+  --rcl-radius-md: 2px;
+  --rcl-font-family: 'Inter', system-ui, sans-serif;
+}
+```
+
+| Group      | Tokens                                                                                                                                                  |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Colour     | `--rcl-color-bg`, `-surface`, `-text`, `-text-muted`, `-border`, `-primary`, `-danger`, `-success`, `-warning`, `-info` (+ `-hover`, `-subtle`, `on-*`) |
+| Spacing    | `--rcl-space-0` … `--rcl-space-12` (4px scale: 1 = 0.25rem, 4 = 1rem)                                                                                   |
+| Radius     | `--rcl-radius-sm`, `-md`, `-lg`, `-full`                                                                                                                |
+| Typography | `--rcl-font-family`, `--rcl-font-size-xs` … `-xl`, `--rcl-font-weight-*`, `--rcl-line-height-*`                                                         |
+| Focus ring | `--rcl-focus-ring-color`, `--rcl-focus-ring-width`, `--rcl-focus-ring-offset`, `--rcl-focus-ring`                                                       |
+| Elevation  | `--rcl-shadow-sm`, `--rcl-shadow-lg`                                                                                                                    |
+| Motion     | `--rcl-duration-fast`, `--rcl-duration-normal`, `--rcl-easing`                                                                                          |
+
+## Accessibility
+
+- Form controls are labelled via `useId`; hints and errors are linked with `aria-describedby`
+  and errors set `aria-invalid`.
+- `Modal` traps focus, closes on <kbd>Esc</kbd>, sets `aria-modal`, and restores focus on close.
+- `Tooltip` opens on hover **and** keyboard focus and is referenced with `aria-describedby`.
+- Every story is checked by the a11y addon (see the **Accessibility** panel).

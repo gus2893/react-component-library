@@ -1,0 +1,54 @@
+name: Release
+
+# Uses Changesets to either open a "Version Packages" PR (when unreleased changesets exist)
+# or publish to npm (when that PR has been merged and versions were bumped).
+#
+# Publishing requires an `NPM_TOKEN` repository secret (an npm automation / granular token
+# with publish rights for the @gus2893 scope). Without it, the publish step is skipped and
+# only the version PR is maintained.
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write # npm provenance
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          registry-url: https://registry.npmjs.org
+
+      - run: npm ci
+
+      - name: Check for NPM_TOKEN
+        id: npm
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: echo "has_token=$([ -n "$NPM_TOKEN" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+      - name: Create release PR or publish to npm
+        uses: changesets/action@v1
+        with:
+          version: npm run version-packages
+          publish: ${{ steps.npm.outputs.has_token == 'true' && 'npm run release' || '' }}
+          title: 'chore: version packages'
+          commit: 'chore: version packages'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true

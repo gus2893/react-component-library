@@ -1,0 +1,99 @@
+.rcl-switch {
+  --rcl-switch-w: 2.25rem;
+  --rcl-switch-h: 1.25rem;
+
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--rcl-space-2);
+  font-family: var(--rcl-font-family);
+  color: var(--rcl-color-text);
+}
+
+.rcl-switch--sm {
+  --rcl-switch-w: 1.75rem;
+  --rcl-switch-h: 1rem;
+}
+
+.rcl-switch--label-first {
+  flex-direction: row-reverse;
+}
+
+.rcl-switch__control {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  width: var(--rcl-switch-w);
+  height: var(--rcl-switch-h);
+  margin-top: 0.125rem;
+}
+
+/* The native input covers the track so it receives clicks, focus and keyboard input. */
+.rcl-switch__input {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.rcl-switch__track {
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 2px;
+  box-sizing: border-box;
+  border-radius: var(--rcl-radius-full);
+  background: var(--rcl-color-border-strong);
+  transition: background-color var(--rcl-duration-normal) var(--rcl-easing);
+}
+
+.rcl-switch__thumb {
+  width: calc(var(--rcl-switch-h) - 4px);
+  height: calc(var(--rcl-switch-h) - 4px);
+  border-radius: var(--rcl-radius-full);
+  background: var(--rcl-color-surface);
+  box-shadow: var(--rcl-shadow-sm);
+  transition: transform var(--rcl-duration-normal) var(--rcl-easing);
+}
+
+.rcl-switch__input:checked + .rcl-switch__track {
+  background: var(--rcl-color-primary);
+}
+
+.rcl-switch__input:checked + .rcl-switch__track .rcl-switch__thumb {
+  transform: translateX(calc(var(--rcl-switch-w) - var(--rcl-switch-h)));
+}
+
+.rcl-switch__input:focus-visible + .rcl-switch__track {
+  box-shadow: var(--rcl-focus-ring);
+}
+
+.rcl-switch__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.rcl-switch__label {
+  font-size: var(--rcl-font-size-sm);
+  line-height: var(--rcl-line-height-normal);
+  cursor: pointer;
+}
+
+.rcl-switch__description {
+  font-size: var(--rcl-font-size-xs);
+  color: var(--rcl-color-text-muted);
+}
+
+.rcl-switch--disabled {
+  opacity: 0.55;
+}
+
+.rcl-switch--disabled .rcl-switch__input,
+.rcl-switch--disabled .rcl-switch__label {
+  cursor: not-allowed;
+}

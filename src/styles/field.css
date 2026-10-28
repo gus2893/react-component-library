@@ -1,0 +1,80 @@
+/* Shared layout for labelled form fields (TextField, Select). */
+.rcl-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rcl-space-1);
+  font-family: var(--rcl-font-family);
+  color: var(--rcl-color-text);
+}
+
+.rcl-field__label {
+  font-size: var(--rcl-font-size-sm);
+  font-weight: var(--rcl-font-weight-medium);
+  line-height: var(--rcl-line-height-tight);
+}
+
+.rcl-field__required {
+  margin-inline-start: 0.125rem;
+  color: var(--rcl-color-danger);
+}
+
+.rcl-field__hint {
+  margin: 0;
+  font-size: var(--rcl-font-size-xs);
+  color: var(--rcl-color-text-muted);
+}
+
+.rcl-field__error {
+  margin: 0;
+  font-size: var(--rcl-font-size-xs);
+  color: var(--rcl-color-danger);
+}
+
+.rcl-field__control {
+  box-sizing: border-box;
+  width: 100%;
+  height: 2.5rem;
+  padding: 0 var(--rcl-space-3);
+  border: 1px solid var(--rcl-color-border-strong);
+  border-radius: var(--rcl-radius-md);
+  background: var(--rcl-color-surface);
+  color: var(--rcl-color-text);
+  font: inherit;
+  font-size: var(--rcl-font-size-sm);
+  transition:
+    border-color var(--rcl-duration-fast) var(--rcl-easing),
+    box-shadow var(--rcl-duration-fast) var(--rcl-easing);
+}
+
+.rcl-field__control::placeholder {
+  color: var(--rcl-color-text-disabled);
+}
+
+.rcl-field__control:hover:not(:disabled) {
+  border-color: var(--rcl-color-text-muted);
+}
+
+.rcl-field__control:focus-visible {
+  outline: none;
+  border-color: var(--rcl-focus-ring-color);
+  box-shadow: var(--rcl-focus-ring);
+}
+
+.rcl-field__control[aria-invalid='true'] {
+  border-color: var(--rcl-color-danger);
+}
+
+.rcl-field__control:disabled {
+  cursor: not-allowed;
+  background: var(--rcl-color-bg-muted);
+  color: var(--rcl-color-text-disabled);
+}
+
+.rcl-field--sm .rcl-field__control {
+  height: 2rem;
+}
+
+.rcl-field--lg .rcl-field__control {
+  height: 3rem;
+  font-size: var(--rcl-font-size-md);
+}
